@@ -44,6 +44,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
     private int m,f,new_name,old_name,indoor,outdoor,page;
     private ArrayList<Response> responses;
     private ArrayList<DataBean> cards;
+    private ArrayList<String> card;
     int pp=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,8 @@ public class BuildPredictorActivity extends AppCompatActivity {
         outdoor = 0;
         new_name = 0;
         old_name = 0;
+        card= new ArrayList<>();
+
 
         //deserialize the shared preferences to receive the card list in arrayList
         SharedPreferences appSharedPrefs = PreferenceManager
@@ -86,7 +89,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
         String url="file:///android_asset/predict.html";
 
         inference();
-
+        getValidation();
         if (Build.VERSION.SDK_INT >= 19) {
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         }
@@ -197,6 +200,34 @@ public class BuildPredictorActivity extends AppCompatActivity {
             }
         }
     }
+    public void getValidation(){
+        StringBuilder sb=null;
+        int c=0;
+
+        for(DataBean db:cards){
+            c++;
+            if(c>40) {
+                sb = new StringBuilder();
+                sb.append("[");
+                sb.append("\"").append(db.getName()).append("\"");
+                sb.append(",");
+                sb.append("\"").append(db.getGender()).append("\"");
+                sb.append(",");
+                sb.append("\"").append(db.getId()).append("\"");
+                sb.append(",");
+                sb.append("\"").append(db.getActivity()).append("\"");
+                sb.append(",");
+                sb.append("\"").append(db.getGame()).append("\"");
+                sb.append(",");
+                sb.append("\"").append(db.getNameAge()).append("\"");
+
+                sb.append("]");
+                card.add(sb.toString());
+
+            }
+        }
+        Log.d("arrayyyy",card.toString());
+    }
     public class AppJavaProxy{
         private Activity activity=null;
         public AppJavaProxy(Activity activity){
@@ -239,7 +270,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
         }
         @JavascriptInterface
         public String getCard(String gender,int nameAge,int activity){
-            pp++;
+
             StringBuilder sb = new StringBuilder();
             for(DataBean db:cards){
 
@@ -265,6 +296,12 @@ public class BuildPredictorActivity extends AppCompatActivity {
                 }
             }
             return sb.toString();
+        }
+
+        @JavascriptInterface
+        public String getValidation(int a){
+            Log.d("checking"+a,card.get(a));
+            return card.get(a).toString();
         }
 
         @JavascriptInterface

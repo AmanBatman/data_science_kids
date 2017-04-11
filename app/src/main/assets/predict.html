@@ -51,7 +51,7 @@
 
 <div class="w3-container w3-center" id="main_div" >
     <div class="w3-container w3-center">
-        <p id="card_text" class="w3-text-red" ></p>
+        <p id="card_text" class="w3-text-red" style="font-size: 18px" ></p>
     </div>
 
     <div class="w3-card-4 w3-black" id="card_div">
@@ -64,6 +64,7 @@
             <table id="myTable15" style="display : none"></table>
             <table id="myTable16" style="display : none"></table>
             <table id="myTable18" style="display : none"></table>
+            <table id="myTable" style="display : none"></table>
 
         </div>
     </div>
@@ -107,6 +108,7 @@
         pageHandler();
         function next(){
           i++;
+
           pageHandler();
         }
         function back(){
@@ -120,6 +122,7 @@
         var flag16 = true;
         var flag14 = true;
         var flag18 = true;
+        var flag = true;
 
 
         function getCard(gen,nameAge,activity){
@@ -166,6 +169,7 @@
             $('#myTable15').css({"display": "none"});
             $('#myTable16').css({"display": "none"});
             $('#myTable18').css({"display": "none"});
+            $('#myTable').css({"display": "none"});
         }
 
         function pageHandler(){
@@ -549,7 +553,6 @@
               break;
               case 19:
 
-
               break;
               case 20:
               break;
@@ -561,8 +564,72 @@
               break;
               case 24:
               break;
+
               case 25:
+              case 26:
+              case 27:
+              case 28:
+              case 29:
+              case 30:
+              case 31:
+              case 32:
+              case 33:
+              case 34:
+              case 35:
+              case 36:
+              case 37:
+              case 38:
+              case 39:
+              case 40:
+                    $('#card_div').show();
+                    $('#myTable').css({"display":"table"});
+                    var table = document.getElementById("myTable");
+                    if(flag)
+                    {
+                        var row = table.insertRow(0);
+                        var row1 = table.insertRow(1);
+                        var row2 = table.insertRow(2);
+                        var row3 = table.insertRow(3);
+
+                        var cell01 = row.insertCell(0);
+                        var cell02 = row.insertCell(1);
+                        var cell03 = row.insertCell(2);
+                        var cell1 = row1.insertCell(0);
+                        var cell2 = row1.insertCell(1);
+                        var cell3 = row1.insertCell(2);
+                        var cell4 = row2.insertCell(0);
+                        var cell5 = row2.insertCell(1);
+                        var cell6 = row2.insertCell(2);
+
+                        var cell001 = row3.insertCell(0);
+                        var cell002 = row3.insertCell(1);
+                        var cell003 = row3.insertCell(2);
+
+                        cell01.innerHTML = "Name";
+                        cell02.innerHTML = "Gender";
+                        cell03.innerHTML = "Hobby";
+
+                        var t1=document.createElement("input");
+                        var t2=document.createElement("input");
+                        t1.style = "width:100px";
+                        var t3=document.createElement("input");
+
+                            t1.type="number";
+                            t1.id = "input1";
+                        cell001.appendChild(t1);
+                            t2.type="number";
+                            t2.id = "input2";
+                            t2.style = "width:100px";
+                        cell002.appendChild(t2);
+                            t3.type="number";
+                            t3.id = "input3";
+                            t3.style = "width:100px";
+                        cell003.appendChild(t3);
+                        flag=false;
+                    }
+                        response(table);
               break;
+              
               case 26:
               break;
 
@@ -626,11 +693,11 @@
 
                         var t1=document.createElement("input");
                         var t2=document.createElement("input");
+                        t1.style = "width:100px";
                         var t3=document.createElement("input");
 
                             t1.type="number";
                             t1.id = "input1";
-                            t1.style = "width:100px";
                         cell001.appendChild(t1);
                             t2.type="number";
                             t2.id = "input2";
@@ -647,6 +714,27 @@
             return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
             };
            }
+
+
+       function response(table){
+                var x,y;
+                if(typeof androidAppProxy !== "undefined"){
+                       x=androidAppProxy.getValidation(i-25);
+                       console.log(x);
+                       y=JSON.parse(x);
+                }
+                else
+                       x=null;
+
+
+                        table.rows[1].cells[0].innerHTML = y[0];
+                        table.rows[1].cells[1].innerHTML = y[1];
+                        table.rows[1].cells[2].innerHTML = y[3];
+                        table.rows[2].cells[0].innerHTML = y[5];
+                        table.rows[2].cells[1].innerHTML = y[1];
+                        table.rows[2].cells[2].innerHTML = y[4];
+
+       }
 
 
        function infers(){
