@@ -41,10 +41,12 @@ public class BuildPredictorActivity extends AppCompatActivity {
     private WebView webView;
     private ProgressBar progressBar;
     private int[] res;
+    private int valid;
     private int m,f,new_name,old_name,indoor,outdoor,page;
     private ArrayList<Response> responses;
     private ArrayList<DataBean> cards;
     private ArrayList<String> card;
+
     int pp=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +63,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar4);
 
         res=new int[5];
-        res[0] = 0;
-        res[1] = 0;
-        res[2] = 0;
-        res[3] = 0;
+
         m = 0;
         f = 0;
         indoor = 0;
@@ -72,7 +71,6 @@ public class BuildPredictorActivity extends AppCompatActivity {
         new_name = 0;
         old_name = 0;
         card= new ArrayList<>();
-
 
         //deserialize the shared preferences to receive the card list in arrayList
         SharedPreferences appSharedPrefs = PreferenceManager
@@ -146,6 +144,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
     }
     public void inference(){
         int c=0;
+
         for(Response response: responses){
             c++;
             if(c<=8)
@@ -199,6 +198,17 @@ public class BuildPredictorActivity extends AppCompatActivity {
                 res[0]++;
             }
         }
+        int d=0;
+        for(Response response:responses){
+            d++;
+            if(d<41)
+                continue;
+            String r = response.getResponse();
+            if(r.equals("5.0")||r.equals("4.0")){
+                valid++;
+            }
+
+        }
     }
     public void getValidation(){
         StringBuilder sb=null;
@@ -246,6 +256,10 @@ public class BuildPredictorActivity extends AppCompatActivity {
             sb.append("]");
             Log.d("St",sb.toString());
             return sb.toString();
+        }
+        @JavascriptInterface
+        public int getValidFriends(){
+            return valid;
         }
 
         @JavascriptInterface
@@ -300,7 +314,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
 
         @JavascriptInterface
         public String getValidation(int a){
-            Log.d("checking"+a,card.get(a));
+
             return card.get(a).toString();
         }
 

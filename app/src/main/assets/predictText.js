@@ -13,26 +13,36 @@ var pageTop = {
  							p12: "",
  							p13: "We can then assign points",
  							p14: "For example",
- 							p15: "",
+ 							p15: "How many points will this person receive?",
  							p16: "",
  							p17: "",
- 							p18: "How many points will this person receive?",
- 							p19: "",
+ 							p18: "Based on the number of points, if can decide if would befriend the person",
+ 							p19: "For example",
  							p20: "",
- 							p21: "Based on the number of points, if can decide if would befriend the person",
- 							p22: "For example",
+ 							p21: "We are ready to build predictor of our own- a method which can suggest whether you would befriend a new person",
+ 							p22: "Let us revisit some of your responses and see what the predictor would calculate. We will then compare it with the score you provided.",
  							p23: "",
- 							p24: "We are ready to build preditor of our own- a method which can suggest whether you would befriend a new person ",
- 							p25: "Let us revisit some of your responses and see what the predictor would calculate. We will then compare it with the score you provided.",
+ 							p24: "",
+ 							p25: "",
  							p26: "",
- 							p27: "Of the friends you had reviewed,",
- 							p28: "This means the predictor is correct"
-
+ 							p27: "",
+ 							p28: "",
+ 							p29: "",
+ 							p30: "",
+ 							p31: "",
+ 							p32: "",
+ 							p33: "",
+ 							p34: "",
+ 							p35: "",
+ 							p36: "",
+ 							p37: "",
+ 							p38: "Of the friends you had reviewed,",
+ 							p39: "This means the predictor is correct"
 						};
 		var extra = {
-                                  p0: "No preferences", //verify for first page when no inferences
-                                  p1: "nothing ",
-                                  p9: "No preferences" // verify for what would happen page
+                            p0: "No preferences", //verify for first page when no inferences
+                            p1: "nothing ",
+                            p9: "No preferences" // verify for what would happen page
 		            };
 
 		var inferences = {
@@ -83,5 +93,13 @@ var pageTop = {
                             p5: "We inferred before that you use these features to befriend a person",
                             p6: "These are the features which you do not prefer",
                             p14: "There are * matches",
-                            p19: "Since the total is greater than 1, you will befriend"
+                            p19: "Since the total is greater than 1, you will befriend",
+                            p37: "The predictor is correct in * out of 16 cases"
                         };
+
+        var res ={
+                    a1: "You would befriend:",
+                    a2: "You would not befriend:",
+                    a3: "Predictor says befriend:",
+                    a4: "Predictor says not befriend:"
+                 };

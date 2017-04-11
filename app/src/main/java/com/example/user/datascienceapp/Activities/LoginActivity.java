@@ -84,8 +84,8 @@ public class LoginActivity extends AppCompatActivity {
                     else {
                         String uid=user.getUid();
                         FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance();
-                        DatabaseReference databaseReference=firebaseDatabase.getReference("user").child(uid).child("school");
-                        databaseReference.setValue(schoolName);
+                        //DatabaseReference databaseReference=firebaseDatabase.getReference("user").child(uid).child("school");
+                        //databaseReference.setValue(schoolName);
                         Intent intent = new Intent(getBaseContext(),MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
