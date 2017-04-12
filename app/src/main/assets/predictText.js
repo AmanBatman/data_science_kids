@@ -37,7 +37,7 @@ var pageTop = {
  							p36: "",
  							p37: "",
  							p38: "Of the friends you had reviewed,",
- 							p39: "This means the predictor is correct"
+ 							p39: "This means the predictor is * correct"
 						};
 		var extra = {
                             p0: "No preferences", //verify for first page when no inferences
@@ -85,7 +85,7 @@ var pageTop = {
                             p7: "If ( New person *)<br>\t then <b>befriend the person<b><br>else<br>\t do not befriend the person<b>",
                             p10: "*",
                             p11: "*",
-                            p12: "Fow each feature of your preference that the new person has, assign 1 point and then up"
+                            p12: "Fow each feature of your preference that the new person has, assign 1 point and add them up"
 
                          };
 

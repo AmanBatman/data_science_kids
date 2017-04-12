@@ -46,6 +46,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
     private ArrayList<Response> responses;
     private ArrayList<DataBean> cards;
     private ArrayList<String> card;
+    private int friends[];
 
     int pp=0;
     @Override
@@ -62,8 +63,8 @@ public class BuildPredictorActivity extends AppCompatActivity {
         webView = (WebView) findViewById(R.id.webview);
         progressBar = (ProgressBar) findViewById(R.id.progressBar4);
 
-        res=new int[5];
-
+        res = new int[5];
+        friends = new int[16];
         m = 0;
         f = 0;
         indoor = 0;
@@ -143,6 +144,7 @@ public class BuildPredictorActivity extends AppCompatActivity {
 
     }
     public void inference(){
+        Log.d("Inferece","Here");
         int c=0;
 
         for(Response response: responses){
@@ -205,7 +207,12 @@ public class BuildPredictorActivity extends AppCompatActivity {
                 continue;
             String r = response.getResponse();
             if(r.equals("5.0")||r.equals("4.0")){
+                Log.d("d= ",""+d);
                 valid++;
+                friends[d-41]=1;
+            }
+            else{
+                friends[d-41]=0;
             }
 
         }
@@ -260,6 +267,11 @@ public class BuildPredictorActivity extends AppCompatActivity {
         @JavascriptInterface
         public int getValidFriends(){
             return valid;
+        }
+
+        @JavascriptInterface
+        public int getFriend(int i){
+            return friends[i];
         }
 
         @JavascriptInterface

@@ -107,10 +107,26 @@
 
 
         pageHandler();
-        function next(){
-          i++;
 
-          pageHandler();
+        function next(){
+            console.log("next is pressed");
+          if(i >= 22 && i <= 36)
+          {
+               if(accuracy()){
+                 i++;
+                 pageHandler();
+                }
+               else{
+               console.log("here");
+                 if(typeof androidAppProxy !== "undefined")
+                   androidAppProxy.makeToast("Error Next Message");
+               }
+          }
+          else{
+              i++;
+              pageHandler();
+          }
+
         }
         function back(){
           i--;
@@ -452,8 +468,6 @@
                         var cell8 = row3.insertCell(1);
                         var cell9 = row3.insertCell(2);
 
-
-
                         cell01.innerHTML = "Name";
                         cell02.innerHTML = "Gender";
                         cell03.innerHTML = "Hobby";
@@ -617,22 +631,26 @@
                             t3.id = "input3";
                             t3.style = "width:100px";
                         cell003.appendChild(t3);
-                        flag=false;
+                        flag=false;  //so that table is created only once
                     }
                         response(table);
               break;
 
               case 37:
-                accuracy();
+                total_accuracy();
                 var str="";
-                str=res.a1+"  "+total+"<br>"+res.a2+"  "+(16-total)+"<br>"+res.a3+"  "+f+"<br>"+res.a4+"  "+(16-parseInt(f));
+                str=res.a1+"  "+acc+"<br>"+res.a2+"  "+(16-acc)+"<br>"+res.a3+"  "+f+"<br>"+res.a4+"  "+(16-parseInt(f));
                 $('#inference').show();
                 document.getElementById('inference').innerHTML =str;
                 break;
 
-              case 38:
-              break;
-
+               case 38:
+                    $('#next').hide();
+                    var temp=pageTopText[i];
+                    var str=percent+"%";
+                    temp = temp.splice(temp, 1, str);
+                    document.getElementById('card_text').innerHTML=temp;
+               break;
               default:
                     if(i<0){
                         $('#prev').hide();
@@ -643,7 +661,7 @@
               break;
             }
 
-            if(i!=1&&i!=3)
+            if(i!=1&&i!=3&&i!=38)
                 document.getElementById('card_text').innerHTML = pageTopText[i];
         }
 
@@ -701,7 +719,7 @@
                   t3.type="number";
                   t3.id = "input3";
                   t3.style = "width:100px";
-                    cell003.appendChild(t3);
+              cell003.appendChild(t3);
         }
 
            function stringMaker(idx,rem,str){
@@ -711,32 +729,11 @@
            }
 
        var total=0;
-       var valid_flag = [false,true,true,true,true,true,true,true,true,true,true,true,true,true,true];
-
+       var valid_flag = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true];
+       var temp_table;
        function response(table){
-                    a1 = table.rows[3].cells[0].getElementsByTagName('input')[0].value;
-                    a2 = table.rows[3].cells[1].getElementsByTagName('input')[0].value;
-                    a3 = table.rows[3].cells[2].getElementsByTagName('input')[0].value;
-                if(valid_flag[i-22]){
 
-                     console.log(a1+" "+a2+" "+a3+" "+b1+" "+b2+" "+b3+"  "+i);
-
-                     if( a1!=b1 || a2!=b2 || a3!=b3 ){
-                         i--;
-                         console.log("here");
-                         pageHandler();
-                     }
-                     else{
-                         var sum=parseInt(a1)+parseInt(a2)+parseInt(a3);
-                         valid_flag[i-22]=false;
-                         if(sum>1){
-                         total++;
-                         }
-                          console.log(total+"***"+sum);
-                     }
-                }
-
-
+                temp_table=table;
                 var x,y;
                 if(typeof androidAppProxy !== "undefined"){
                        x=androidAppProxy.getValidation(i-22);
@@ -753,17 +750,23 @@
                 table.rows[2].cells[1].innerHTML = y[1];
                 table.rows[2].cells[2].innerHTML = y[4];
 
-                if(nflag == y[5])
+                if(nflag==-1)
+                    b1=-1
+                else if(nflag == y[5])
                     b1 = 1;
                 else
                     b1 = 0;
 
-                if(gflag == y[1])
+                if(gflag==-1)
+                    b2=-1
+                else if(gflag == y[1])
                     b2 = 1;
                 else
                     b2 = 0;
 
-                if(aflag == y[4])
+                if(aflag==-1)
+                    b3=-1
+                else if(aflag == y[4])
                     b3 = 1;
                 else
                     b3 = 0;
@@ -771,21 +774,84 @@
                 console.log(b1+"--"+b2+"--"+b3);
 
        }
+
        var acc=0;
        var f=0;
-
+       var total=0;
        function accuracy(){
 
-                if(typeof androidAppProxy !== "undefined"){
-                   f=androidAppProxy.getValidFriends();
-                }
-                else{
-                   f=null;
-                }
-                var diff = Math.abs(f-total); // temp formula
-                acc = (1-(diff/f))*100;
+                  a1 = temp_table.rows[3].cells[0].getElementsByTagName('input')[0].value;
+                  a2 = temp_table.rows[3].cells[1].getElementsByTagName('input')[0].value;
+                  a3 = temp_table.rows[3].cells[2].getElementsByTagName('input')[0].value;
 
-       }
+                  console.log(a1+" "+a2+" "+a3+" "+b1+" "+b2+" "+b3+"  "+i);
+
+                  var f1,f2,f3;
+                  f1 = parseInt(a1)===b1;
+                  f2 = parseInt(a2)===b2;
+                  f3 = parseInt(a3)===b3;
+
+                  if(b1==-1)
+                    f1=true;
+                  if(b2==-1)
+                    f2=true;
+                  if(b3==-1)
+                    f3=true;
+
+                  if(a1==""||a2==""||a3==""){
+                     console.log("Empty");
+                       return false;
+                  }
+                  else if(f1 && f2 && f3){
+                     console.log("All good");
+
+                     var sum=(parseInt(a1)==b1)+(parseInt(a2)==b2)+(parseInt(a3)==b3);
+
+                     console.log(sum+"%%%"+i);
+                     var r;
+                     if(valid_flag[i-22]){
+
+                         if(typeof androidAppProxy !== "undefined"){
+                             r=androidAppProxy.getFriend(i-22);
+                             console.log(r+"****************");
+                             }
+                         else
+                             r=null;
+
+                         console.log(r+"3456");
+                         if(sum>1){
+                             acc++;
+                             if(parseInt(r)==1)
+                               total++;
+                         }
+                         else{
+                             if(parseInt(r)==0)
+                               total++;
+                         }
+                           valid_flag[i-22]=false;
+                       }
+                     return true;
+                  }
+                  else{
+                      if(typeof androidAppProxy !== "undefined"){
+                       androidAppProxy.makeToast("Error");
+                     }
+                      return false;
+                  }
+                  }
+
+       var percent;
+      function total_accuracy(){
+          if(typeof androidAppProxy !== "undefined"){
+              f=androidAppProxy.getValidFriends();
+          }
+          else{
+              f=null;
+          }
+
+          percent = (parseFloat(total/16))*100;
+          console.log(f+" ### "+acc+"d "+percent+" tt "+total);
+      }
 
 
        function infers(){
